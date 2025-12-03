@@ -51,11 +51,8 @@ def gen_router_rtl(router_rtl, router_blackbox, rtr_wrap_template, rtr_wrap_blac
         template_content = f.read()
     # Replace parameters in the template
     for param_name, param_value in parameters.items():
-        print(f"Replacing {param_name} with {param_value}")
         placeholder = f"parameter {param_name} = {default_parameters[param_name]},"
-        print(f"Replacing :{placeholder}")
         replacement = f"parameter {param_name} = {param_value},"
-        print(f"Replacement :{replacement}")
         template_content = re.sub(placeholder, replacement, template_content)
     
     # Write the output RTL file
@@ -66,18 +63,14 @@ def gen_router_rtl(router_rtl, router_blackbox, rtr_wrap_template, rtr_wrap_blac
         template_content = f.read()
     # Replace parameters in the template
     for param_name, param_value in parameters.items():
-        print(f"Replacing {param_name} with {param_value}")
         placeholder = f"parameter {param_name} = {default_parameters[param_name]},"
-        print(f"Replacing :{placeholder}")
         replacement = f"parameter {param_name} = {param_value},"
-        print(f"Replacement :{replacement}")
         template_content = re.sub(placeholder, replacement, template_content)
     
     # Write the output RTL file
     with open(router_blackbox, 'w') as f:
         f.write(template_content)
 
-    print(f"Router RTL files created at: {router_rtl} and {router_blackbox}")
     return router_rtl, router_blackbox
 
 

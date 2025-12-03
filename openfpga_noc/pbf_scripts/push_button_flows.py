@@ -34,7 +34,6 @@ def create_collateral_dir(task_dir, yaml_config):
     if not os.path.exists(collateral_dir):
         os.makedirs(collateral_dir)
     arch_dir = os.path.join(collateral_dir, "arch")
-    print(arch_dir)
     if not os.path.exists(arch_dir):
         os.makedirs(arch_dir)
     fabric_collateral = os.path.join(collateral_dir, "fabric_collateral")
@@ -169,12 +168,12 @@ def main(args):
         yaml_config = yaml.safe_load(f)
 
     # Access values from the configuration
-    print(yaml_config["fabric_gen_config"]["NoC"]["num_routers"])
-    print(yaml_config["bitstream_gen_config"]["noc"]["routing_mode"])
-    print(yaml_config["bitstream_gen_config"]["noc"]["noc_freq_factor"])
+    # print(yaml_config["fabric_gen_config"]["NoC"]["num_routers"])
+    # print(yaml_config["bitstream_gen_config"]["noc"]["routing_mode"])
+    # print(yaml_config["bitstream_gen_config"]["noc"]["noc_freq_factor"])
 
     task_dir = args.task_dir
-    print(f"Task directory: {task_dir}")
+    print(f"Using task directory: {task_dir}")
     if not os.path.exists(task_dir):
         os.makedirs(task_dir)
 
@@ -187,7 +186,12 @@ def main(args):
     
     create_bitstream_gen_dir(task_dir, yaml_config)
     print(f"Bitstream generation directory created at: {task_dir}/bitstream")
+    print("----------------------------------------------------------")
 
+    print("------ Push button flow setup completed successfully ------")
+    print(f"Use 'run-task {task_dir}/fabric' to generate the fabric netlists")
+    print(f"Use 'run-task {task_dir}/bitstream' to generate the bitstream")
+    print("----------------------------------------------------------")
 
 if __name__ == "__main__":
     args = parse_args()

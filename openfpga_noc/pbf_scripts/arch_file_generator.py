@@ -91,7 +91,7 @@ def add_vpr_model(top,
     models_element.append(new_model)
 
     tree.write(vpr_arch_file)
-    print(f" ---------- Added model '{top}' in VPR arch file at $arch_dir/vpr_arch.xml")
+    # print(f" ---------- Added model '{top}' in VPR arch file at $arch_dir/vpr_arch.xml")
 
 
 def add_vpr_tile(top, 
@@ -343,7 +343,7 @@ def add_vpr_tile(top,
     models_element = root.find('.//tiles')
     models_element.append(new_tile)
     tree.write(vpr_arch_file)
-    print(f" ---------- Added tile '{top}_tile' in VPR arch file at {vpr_arch_file}")
+    # print(f" ---------- Added tile '{top}_tile' in VPR arch file at {vpr_arch_file}")
 
 # def add_vpr_pb_type(top, port_dict, has_clock, clock_port, vpr_arch_file, root, tree):
 def add_vpr_pb_type(top, 
@@ -571,7 +571,7 @@ def add_vpr_pb_type(top,
     models_element.append(new_pb_type)
 
     vpr_tree.write(vpr_arch_file)
-    print(f" ---------- Added pb_type '{top}_tile' in VPR arch file")
+    # print(f" ---------- Added pb_type '{top}_tile' in VPR arch file")
 
 def add_openfpga_circuit_model(top, verilog_file, spice_file, port_dict, has_clock, clock_port, openfpga_arch_file, root, tree):
     # Create the new <model> tag
@@ -598,7 +598,7 @@ def add_openfpga_circuit_model(top, verilog_file, spice_file, port_dict, has_clo
 
     circuit_library_element.append(new_circuit_model)
     tree.write(openfpga_arch_file)
-    print(f" ---------- Added circuit model '{top}' in openfpga arch file")
+    # print(f" ---------- Added circuit model '{top}' in openfpga arch file")
 
 def add_openfpga_pb_type_annotation(top, openfpga_arch_file, root, tree):
     # Create the new <model> tag
@@ -621,7 +621,7 @@ def add_openfpga_pb_type_annotation(top, openfpga_arch_file, root, tree):
     pb_type_annotations_element.append(pb_type_primitive)
 
     tree.write(openfpga_arch_file)
-    print(f" ---------- Added pb_type annotation '{top}' in openfpga arch file")
+    # print(f" ---------- Added pb_type annotation '{top}' in openfpga arch file")
 
 # def add_vpr_direct_connections(top, port_dict, has_clock, clock_port, arch_dir, root, tree):
 #     # Create the new <model> tag
@@ -706,7 +706,7 @@ def add_vpr_layout_tag(top, port_dict, has_clock, clock_port, vpr_arch_file, vpr
     
     # Write the updated tree to the file
     vpr_tree.write(vpr_arch_file)
-    print(f" ---------- Added fixed layout for '{top}_tile' in VPR arch file")
+    # print(f" ---------- Added fixed layout for '{top}_tile' in VPR arch file")
 
 def add_vpr_noc_tag(top, vpr_arch_file, vpr_root, vpr_tree):
     # Find the architecture root to append the noc element
@@ -785,7 +785,7 @@ def add_vpr_noc_tag(top, vpr_arch_file, vpr_root, vpr_tree):
     
     # Write the updated tree to the file
     vpr_tree.write(vpr_arch_file)
-    print(f" ---------- Added NoC mesh topology for '{top}_tile' in VPR arch file")
+    # print(f" ---------- Added NoC mesh topology for '{top}_tile' in VPR arch file")
 
 def add_openfpga_noc_tag(top, 
                         #  port_dict,
@@ -793,7 +793,7 @@ def add_openfpga_noc_tag(top,
                         north_input_ports, north_output_ports, east_input_ports, east_output_ports, south_input_ports, south_output_ports, west_input_ports, west_output_ports,
                         core_input_ports, core_output_ports, clock_reset_ports,
                         openfpga_arch_file, openfpga_root, openfpga_tree):
-    print(f"Adding NoC annotation tag to OpenFPGA arch file for {top}")
+    # print(f"Adding NoC annotation tag to OpenFPGA arch file for {top}")
     
     # Create port classification for directional routing
     top_in_ports = []
@@ -887,7 +887,7 @@ def add_openfpga_noc_tag(top,
     openfpga_root.append(noc_annotation)
     
     openfpga_tree.write(openfpga_arch_file)
-    print(f" ---------- Added NoC annotation for '{top}' in OpenFPGA arch file")
+    # print(f" ---------- Added NoC annotation for '{top}' in OpenFPGA arch file")
 
 def generate_arch_files(yosys_path, verilog_file, spice_file, top, output_dir, vpr_arch, openfpga_arch, is_noc):
     interface = 'axis' 
@@ -895,19 +895,19 @@ def generate_arch_files(yosys_path, verilog_file, spice_file, top, output_dir, v
     # Set defaults paths
     if not yosys_path:
         if not os.getenv('OPENFPGA_PATH'):
-            print("ERROR: Please set OPENFPGA_PATH environment variable or provide -yosys_path")
+            print("---- ERROR: Please set OPENFPGA_PATH environment variable or provide -yosys_path")
             exit(1)
         yosys_path = os.getenv('OPENFPGA_PATH', '') + '/build/yosys/bin/yosys'
     if not vpr_arch:
         # vpr_arch = os.getenv('OPENFPGA_PATH', '') + '/openfpga_flow/vpr_arch/k6_frac_N10_40nm.xml'
         vpr_arch = os.getenv('OPENFPGA_PATH', '') + '/openfpga_flow/vpr_arch/k6_frac_N10_tileable_adder_chain_dpram8K_dsp36_fracff_40nm.xml'
-        print(f"WARNING: Template VPR arch file not found using default file at: {vpr_arch}")
+        print(f"---- WARNING: Template VPR arch file not found using default file at: {vpr_arch}")
     if not openfpga_arch:
         # openfpga_arch = os.getenv('OPENFPGA_PATH', '') + '/openfpga_flow/openfpga_arch/k6_frac_N10_40nm_openfpga.xml'
         openfpga_arch = os.getenv('OPENFPGA_PATH', '') + '/openfpga_flow/openfpga_arch/k6_frac_N10_adder_chain_dpram8K_dsp36_fracff_40nm_openfpga.xml'
-        print("WARNING: Template OpenFPGA arch file not found using default file at: {openfpga_arch}")
+        print(f"---- WARNING: Template OpenFPGA arch file not found using default file at: {openfpga_arch}")
     if not spice_file:
-        print("WARNING: Spice file not provided, using verilog file as spice file")
+        print("---- WARNING: Spice file not provided, using verilog file as spice file")
         spice_file = verilog_file
 
     vpr_output_dir = output_dir
@@ -917,9 +917,9 @@ def generate_arch_files(yosys_path, verilog_file, spice_file, top, output_dir, v
     # copy vpr template to current arch dir
     # shutil.copy(f'{vpr_arch}', f'{vpr_output_dir}/{name}_vpr.xml')
     # vpr_arch_file = f'{vpr_output_dir}/{name}_vpr.xml'
-    print(60*'*')
-    print(f"vpr arch template: {vpr_arch}")
-    print(f"output dir: {vpr_output_dir}")
+    # print(60*'*')
+    # print(f"vpr arch template: {vpr_arch}")
+    # print(f"output dir: {vpr_output_dir}")
     shutil.copy(f'{vpr_arch}', f'{vpr_output_dir}/vpr_arch.xml')
     vpr_arch_file = f'{vpr_output_dir}/vpr_arch.xml'
 
@@ -934,7 +934,7 @@ def generate_arch_files(yosys_path, verilog_file, spice_file, top, output_dir, v
 
     try:
         result = subprocess.run(yosys_command, shell=True, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
-        print(f"Generated hardblock portlist fromm verilog file at $task_dir/portlist.txt")
+        # print(f"Generated hardblock portlist fromm verilog file at $task_dir/portlist.txt")
     except subprocess.CalledProcessError as e:
         print(f"ERROR: An error occurred: {e.stderr}")
 
@@ -1048,9 +1048,6 @@ def generate_arch_files(yosys_path, verilog_file, spice_file, top, output_dir, v
             else:
                 directional_out_ports.append((name, size))
 
-    # 
-    if directional_in_ports and directional_out_ports:
-        print(69 *" ---#############")
 
     for port, size in core_input_ports:
         if "data" in port.lower():
@@ -1060,14 +1057,13 @@ def generate_arch_files(yosys_path, verilog_file, spice_file, top, output_dir, v
     tile_size_x =  4
     tile_size = (tile_size_x, tile_size_y)
     
-    # print(f"X is {tile_size[0]}, Y is {tile_size[1]} for tile size based on data input port size {data_size}")
     
 
     # write vpr file
     vpr_tree = ET.parse(vpr_arch_file)
     vpr_root = vpr_tree.getroot()
 
-    print(f'Writing VPR arch file using template {vpr_arch} at {vpr_arch_file}')
+    # print(f'Writing VPR arch file using template {vpr_arch} at {vpr_arch_file}')
     # add model tag
     add_vpr_model(top, 
                 #   port_dict,
@@ -1104,14 +1100,14 @@ def generate_arch_files(yosys_path, verilog_file, spice_file, top, output_dir, v
     add_vpr_layout_tag(top, port_dict, has_clock, clock_port, vpr_arch_file, vpr_root, vpr_tree)
 
     add_vpr_noc_tag(top, vpr_arch_file, vpr_root, vpr_tree)
-    print(f"# Completed writing VPR arch file with '{top}' as a hard block")
+    # print(f"# Completed writing VPR arch file with '{top}' as a hard block")
 
     # write openfpga file
     openfpga_tree = ET.parse(openfpga_arch_file)
     openfpga_root = openfpga_tree.getroot()
 
     # print("-------- Writing openfpga arch file --------")
-    print(f'Writing OpenFPGA arch file using template {openfpga_arch} at {openfpga_arch_file}')
+    # print(f'Writing OpenFPGA arch file using template {openfpga_arch} at {openfpga_arch_file}')
 
     add_openfpga_circuit_model(top, verilog_file, spice_file, port_dict, has_clock, clock_port, openfpga_arch_file, openfpga_root, openfpga_tree)
     add_openfpga_pb_type_annotation(top, openfpga_arch_file, openfpga_root, openfpga_tree)

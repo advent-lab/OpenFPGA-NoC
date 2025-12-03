@@ -204,5 +204,13 @@ setup-run-from-config() {
 # alias setup-run-dir=setup_run_dir
 
 setup-pbf-run() {
-    echo "TODO: "
+    # push_button_flows.py
+    # requires 2 argumnts "-c" for yaml config file and "-t" for task run directory
+    # if less than 2 args given, print usage
+    if [ "$#" -lt 2 ]; then
+        echo "Usage: setup-pbf-run -c <config_file.yaml> -t <task_run_directory>"
+        return 1
+    fi
+    echo "Running Push Button Flow with arguments: $@"
+    python3 ${PBF_SCRIPT_PATH}/push_button_flows.py "$@"
 }
